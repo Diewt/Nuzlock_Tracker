@@ -38,7 +38,25 @@ export default function Container(props) {
                     <meta property="article:published_time" content={meta.date} />
                 )}
             </Head>
-            <nav>
+            <nav className = 'flex flex-row w-full items-center justify-between bg-blue-400 dark:bg-red-400 border-b-2 h-24 px-4 shadow-sm'>
+                <div>
+
+                </div>
+
+                <div> 
+                    <p className="text-4xl font-bold">Nuzlog</p>
+                </div>
+
+                <div>
+                    <button
+                        aria-label="Toggle Dark Mode"
+                        type="button"
+                        className="w-20 h-12 p-3 bg-gray-200 rounded dark:bg-gray-800"
+                        onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+                    >
+                        {mounted && resolvedTheme === 'dark' ? ('Light') : ('Dark')}
+                    </button>
+                </div>
 
             </nav>
             <main>
