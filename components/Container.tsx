@@ -38,7 +38,7 @@ export default function Container(props) {
                     <meta property="article:published_time" content={meta.date} />
                 )}
             </Head>
-            <nav className="w-full flex flex-row">
+            <nav>
 
             </nav>
             <main>
