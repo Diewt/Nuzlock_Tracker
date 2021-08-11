@@ -40,7 +40,7 @@ export default function Container(props) {
             </Head>
             <nav className = 'flex flex-row w-full items-center justify-between bg-blue-400 dark:bg-red-400 border-b-2 h-24 px-4 shadow-sm'>
                 <div>
-
+                    
                 </div>
 
                 <div> 

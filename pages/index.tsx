@@ -40,8 +40,8 @@ export const getStaticProps: GetStaticProps = async () => {
 export default function Home({ pokemonOptions }) {
 	return (
 		<Container>
-			<h1>Nuzlog</h1>
 			<PokeCard pokemonOptions={pokemonOptions} />
+      <PokeCard pokemonOptions={pokemonOptions} />
 		</Container>
 	)
 }
