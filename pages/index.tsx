@@ -4,7 +4,7 @@ import Container from '@/components/Container';
 import PokeCard from '@/components/PokeCard';
 import pokedex from '@/lib/pokeapi';
 
-const pokeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/";
+const pokeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 
 interface Pokemon {
 	name: string,
@@ -19,12 +19,12 @@ interface PokemonOption {
 export const getStaticProps: GetStaticProps = async () => {
 	const pokemonList: Pokemon[] = (await pokedex.getPokemonsList()).results;
 
-	const pokemonSprites: string[] = [];
+	const pokemonSprites = {}
 	const pokemonOptions: PokemonOption[] = pokemonList.map(pokemon => {
 		const name: string = pokemon.name;
 		const spriteNum: string = pokemon.url.substring(pokemon.url.slice(0, -1).lastIndexOf('/') + 1).slice(0, -1);
 		const spriteUrl: string = pokeSpriteUrl + spriteNum + ".png";
-		pokemonSprites.push(spriteUrl);
+		pokemonSprites[name] = spriteUrl;
 		const pokemonOption: PokemonOption = { value: name, label: name.charAt(0).toUpperCase() + name.slice(1) }
 
 		return pokemonOption
@@ -38,11 +38,11 @@ export const getStaticProps: GetStaticProps = async () => {
 	}
 }
 
-export default function Home({ pokemonOptions }) {
+export default function Home({ pokemonOptions, pokemonSprites }) {
 	return (
 		<Container>
-			<PokeCard pokemonOptions={pokemonOptions} />
-			<PokeCard pokemonOptions={pokemonOptions} />
+			<PokeCard pokemonOptions={pokemonOptions} pokemonSprites={pokemonSprites} />
+			<PokeCard pokemonOptions={pokemonOptions} pokemonSprites={pokemonSprites} />
 		</Container>
 	)
 }
