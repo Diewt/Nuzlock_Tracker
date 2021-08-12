@@ -57,7 +57,7 @@ export default function PokeCard({ pokemonOptions, pokemonSprites }) {
                 />
                 <div className='col-span-5 row-span-5'>
                     <p>{selectedPokemon?.label}</p>
-                    <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : ""} />
+                    <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : "https://play.pokemonshowdown.com/sprites/bw/0.png"} />
                 </div>
                 <div className='col-span-7 row-span-1'>
                     Route
