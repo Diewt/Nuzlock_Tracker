@@ -4,7 +4,7 @@ import { AsyncPaginate } from "react-select-async-paginate";
 export default function PokeCard({ pokemonOptions, pokemonSprites }) {
 
     // placeholders for later implementation of select functionality
-    const [value, onChange] = useState(null);
+    let [selectedPokemon, onChange] = useState(null);
 
     // function for filtering options when searching pokemon
     const loadOptions = async (search, prevOptions) => {
@@ -50,13 +50,14 @@ export default function PokeCard({ pokemonOptions, pokemonSprites }) {
                 <div className='col-span-5 row-span-1' />
                 <AsyncPaginate
                     formatOptionLabel={formatOptionLabel}
-                    value={value}
+                    value={selectedPokemon}
                     loadOptions={loadOptions}
                     onChange={onChange}
                     className="col-span-7 row-span-1"
                 />
                 <div className='col-span-5 row-span-5'>
-                    image
+                    <p>{selectedPokemon?.label}</p>
+                    <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : ""} />
                 </div>
                 <div className='col-span-7 row-span-1'>
                     Route

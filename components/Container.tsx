@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-import NextLink from 'next/link';
 
 import Footer from '@/components/Footer';
 
@@ -38,12 +37,12 @@ export default function Container(props) {
                     <meta property="article:published_time" content={meta.date} />
                 )}
             </Head>
-            <nav className = 'flex flex-row w-full items-center justify-between bg-blue-400 dark:bg-red-400 border-b-2 h-24 px-4 shadow-sm'>
+            <nav className='flex flex-row w-full items-center justify-between bg-blue-400 dark:bg-red-400 border-b-2 h-24 px-4 shadow-sm'>
                 <div>
-                    
+
                 </div>
 
-                <div> 
+                <div>
                     <p className="text-4xl font-bold">Nuzlog</p>
                 </div>
 
