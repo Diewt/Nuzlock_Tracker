@@ -32,7 +32,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
 	return {
 		props: {
-			pokemonOptions
+			pokemonOptions,
+			pokemonSprites
 		}
 	}
 }
@@ -41,7 +42,7 @@ export default function Home({ pokemonOptions }) {
 	return (
 		<Container>
 			<PokeCard pokemonOptions={pokemonOptions} />
-      <PokeCard pokemonOptions={pokemonOptions} />
+			<PokeCard pokemonOptions={pokemonOptions} />
 		</Container>
 	)
 }
