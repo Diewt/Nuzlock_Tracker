@@ -6,15 +6,7 @@ import pokedex from '@/lib/pokeapi';
 
 const pokeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 
-interface Pokemon {
-	name: string,
-	url: string
-}
-
-interface PokemonOption {
-	value: string,
-	label: string,
-}
+import { Pokemon, PokemonOption } from '@/lib/interfaces';
 
 export const getStaticProps: GetStaticProps = async () => {
 	const pokemonList: Pokemon[] = (await pokedex.getPokemonsList()).results;
