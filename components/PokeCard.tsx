@@ -59,17 +59,60 @@ export default function PokeCard({ pokemonOptions, pokemonSprites }) {
                     <p>{selectedPokemon?.label}</p>
                     <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : "https://play.pokemonshowdown.com/sprites/bw/0.png"} />
                 </div>
-                <div className='col-span-7 row-span-1'>
-                    Route
-                </div>
-                <div className='col-span-7 row-span-1'>
+                <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
                     Ability
                 </div>
-                <div className='col-span-7 row-span-1'>
+                <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
                     Nature
                 </div>
-                <div className='col-span-7 row-span-1'>
+                <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
                     Item
+                </div>
+                <div className='col-span-7 row-span-6 box-border border-2 p-1 rounded-lg'>
+                    <div className='grid grid-cols-3 gap-1.5'>
+                        <div>
+                            Hp
+                        </div>
+                        <div></div>
+                        <div className='justify-self-end'>Value</div>
+                        <div>
+                            Atk
+                        </div>
+                        <div></div>
+                        <div className='justify-self-end'>Value</div>
+                        <div>
+                            Def
+                        </div>
+                        <div></div>
+                        <div className='justify-self-end'>Value</div>
+                        <div>
+                            Spa
+                        </div>
+                        <div></div>
+                        <div className='justify-self-end'>Value</div>
+                        <div>
+                            Spd
+                        </div>
+                        <div></div>
+                        <div className='justify-self-end'>Value</div>
+                        <div>
+                            Spe
+                        </div>
+                        <div></div>
+                        <div className='justify-self-end'>Value</div>
+                    </div>
+                </div>
+                <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
+                    Move 1
+                </div>
+                <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
+                    Move 2
+                </div>
+                <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
+                    Move 3
+                </div>
+                <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
+                    Move 4
                 </div>
             </div>
         </div>
