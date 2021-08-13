@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next'
 import Container from '@/components/Container';
 import PokeCard from '@/components/PokeCard';
 import pokedex from '@/lib/pokeapi';
+import { capitalize } from '@/lib/helper_functions';
 
 const pokeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 
@@ -17,7 +18,7 @@ export const getStaticProps: GetStaticProps = async () => {
 		const spriteNum: string = pokemon.url.substring(pokemon.url.slice(0, -1).lastIndexOf('/') + 1).slice(0, -1);
 		const spriteUrl: string = pokeSpriteUrl + spriteNum + ".png";
 		pokemonSprites[name] = spriteUrl;
-		const pokemonOption: PokemonOption = { value: name, label: name.charAt(0).toUpperCase() + name.slice(1) }
+		const pokemonOption: PokemonOption = { value: name, label: capitalize(name) }
 
 		return pokemonOption
 	})
@@ -31,10 +32,11 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 export default function Home({ pokemonOptions, pokemonSprites }) {
+
 	return (
 		<Container>
-			<PokeCard pokemonOptions={pokemonOptions} pokemonSprites={pokemonSprites} />
-			<PokeCard pokemonOptions={pokemonOptions} pokemonSprites={pokemonSprites} />
+			<PokeCard cardIndex={1} pokemonOptions={pokemonOptions} pokemonSprites={pokemonSprites} />
+			<PokeCard cardIndex={2} pokemonOptions={pokemonOptions} pokemonSprites={pokemonSprites} />
 		</Container>
 	)
 }

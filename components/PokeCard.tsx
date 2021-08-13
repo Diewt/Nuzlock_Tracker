@@ -1,10 +1,29 @@
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
+import Select from 'react-select';
+import pokedex from "@/lib/pokeapi";
+import { capitalize } from "@/lib/helper_functions";
 
-export default function PokeCard({ pokemonOptions, pokemonSprites }) {
+export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) {
 
     // placeholders for later implementation of select functionality
-    let [selectedPokemon, onChange] = useState(null);
+    let [selectedPokemon, setSelectedPokemon] = useState(null);
+    let [pokemonInfo, setPokemonInfo] = useState(null);
+    let [userPokemonInfo, setUserPokemonInfo] = useState({
+        "nickname": "",
+        "ability": "",
+        "nature": "",
+        "item": "",
+        "moves": [],
+        "stats": {
+            hp: 0,
+            atk: 0,
+            def: 0,
+            spa: 0,
+            spd: 0,
+            spe: 0
+        }
+    });
 
     // function for filtering options when searching pokemon
     const loadOptions = async (search, prevOptions) => {
@@ -40,6 +59,33 @@ export default function PokeCard({ pokemonOptions, pokemonSprites }) {
         </div>
     );
 
+    const onChange = (option) => {
+        setSelectedPokemon(option);
+        pokedex.getPokemonByName(option.value).then(function (response) {
+            setPokemonInfo(response);
+        });
+        setUserPokemonInfo({
+            "nickname": "",
+            "ability": "",
+            "nature": "",
+            "item": "",
+            "moves": [],
+            "stats": {
+                hp: 0,
+                atk: 0,
+                def: 0,
+                spa: 0,
+                spd: 0,
+                spe: 0
+            }
+        });
+    }
+
+    // for some reason doesn't work right now (selecting an ability)
+    const userOnChange = (option, parameters) => {
+        setUserPokemonInfo(prevState => { return { ...prevState, [parameters.name]: option.value } });
+    }
+
     return (
         <div className='p-4'>
             <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-md dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
@@ -49,6 +95,8 @@ export default function PokeCard({ pokemonOptions, pokemonSprites }) {
                 </label>
                 <div className='col-span-5 row-span-1' />
                 <AsyncPaginate
+                    id={`pokemon-select-${cardIndex}`}
+                    instanceId={`pokemon-select-${cardIndex}`}
                     formatOptionLabel={formatOptionLabel}
                     value={selectedPokemon}
                     loadOptions={loadOptions}
@@ -58,10 +106,25 @@ export default function PokeCard({ pokemonOptions, pokemonSprites }) {
                 <div className='col-span-5 row-span-5'>
                     <p>{selectedPokemon?.label}</p>
                     <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : "https://play.pokemonshowdown.com/sprites/bw/0.png"} />
+                    <div className="flex flex-row">
+                        {pokemonInfo?.types.map(i => <p key={i.type.name} className="m-2">{capitalize(i.type.name)}</p>)}
+                    </div>
                 </div>
-                <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
-                    Ability
-                </div>
+                {selectedPokemon ?
+                    <Select
+                        id={`ability-select-${cardIndex}`}
+                        instanceId={`ability-select-${cardIndex}`}
+                        name="ability"
+                        value={userPokemonInfo?.ability}
+                        onChange={userOnChange}
+                        options={pokemonInfo?.abilities.map(i => ({ label: capitalize(i.ability.name), value: i.ability.name }))}
+                        placeholder="Ability"
+                        className="col-span-7 row-span-1"
+                    /> :
+                    <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
+                        Ability
+                    </div>
+                }
                 <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
                     Nature
                 </div>
@@ -74,32 +137,32 @@ export default function PokeCard({ pokemonOptions, pokemonSprites }) {
                             Hp
                         </div>
                         <div></div>
-                        <div className='justify-self-end'>Value</div>
+                        <div className='justify-self-end'>{pokemonInfo ? pokemonInfo?.stats[0].base_stat : 0}</div>
                         <div>
                             Atk
                         </div>
                         <div></div>
-                        <div className='justify-self-end'>Value</div>
+                        <div className='justify-self-end'>{pokemonInfo ? pokemonInfo?.stats[1].base_stat : 0}</div>
                         <div>
                             Def
                         </div>
                         <div></div>
-                        <div className='justify-self-end'>Value</div>
+                        <div className='justify-self-end'>{pokemonInfo ? pokemonInfo?.stats[2].base_stat : 0}</div>
                         <div>
                             Spa
                         </div>
                         <div></div>
-                        <div className='justify-self-end'>Value</div>
+                        <div className='justify-self-end'>{pokemonInfo ? pokemonInfo?.stats[3].base_stat : 0}</div>
                         <div>
                             Spd
                         </div>
                         <div></div>
-                        <div className='justify-self-end'>Value</div>
+                        <div className='justify-self-end'>{pokemonInfo ? pokemonInfo?.stats[4].base_stat : 0}</div>
                         <div>
                             Spe
                         </div>
                         <div></div>
-                        <div className='justify-self-end'>Value</div>
+                        <div className='justify-self-end'>{pokemonInfo ? pokemonInfo?.stats[5].base_stat : 0}</div>
                     </div>
                 </div>
                 <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
