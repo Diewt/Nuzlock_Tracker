@@ -3,8 +3,9 @@ import { AsyncPaginate } from "react-select-async-paginate";
 import Select from 'react-select';
 import pokedex from "@/lib/pokeapi";
 import { capitalize } from "@/lib/helper_functions";
+import { Option } from "@/lib/interfaces";
 
-export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) {
+export default function PokeCard({ cardIndex, options, pokemonSprites }) {
 
     // placeholders for later implementation of select functionality
     let [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -22,7 +23,8 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
             spa: 0,
             spd: 0,
             spe: 0
-        }
+        },
+        lvl: 0,
     });
 
     // function for filtering options when searching pokemon
@@ -30,11 +32,11 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
 
         let filteredOptions;
         if (!search) {
-            filteredOptions = pokemonOptions;
+            filteredOptions = options.pokemonOptions;
         } else {
             const searchLower = search.toLowerCase();
 
-            filteredOptions = pokemonOptions.filter(({ label }) =>
+            filteredOptions = options.pokemonOptions.filter(({ label }) =>
                 label.toLowerCase().includes(searchLower)
             );
         }
@@ -78,12 +80,13 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
                 spa: 0,
                 spd: 0,
                 spe: 0
-            }
+            },
+            lvl: 0
         });
     }
 
     // for selecting other parameters like "ability" or "nature"
-    const userOnChange = (option, parameters) => {
+    const userOnChange = (option: Option, parameters) => {
         setUserPokemonInfo(prevState => { return { ...prevState, [parameters.name]: option.value } });
     }
 
@@ -125,9 +128,21 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
                         Ability
                     </div>
                 }
-                <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
-                    Nature
-                </div>
+                {selectedPokemon ?
+                    <Select
+                        id={`nature-select-${cardIndex}`}
+                        instanceId={`nature-select-${cardIndex}`}
+                        name="nature"
+                        value={{ label: capitalize(userPokemonInfo?.nature), value: userPokemonInfo?.nature }}
+                        onChange={userOnChange}
+                        options={options.natureOptions}
+                        placeholder="Nature"
+                        className="col-span-7 row-span-1"
+                    /> :
+                    <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
+                        Nature
+                    </div>
+                }
                 <div className='col-span-7 row-span-1 box-border border-2 p-1 rounded-lg'>
                     Item
                 </div>
