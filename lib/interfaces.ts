@@ -1,9 +1,9 @@
-export interface Pokemon {
+export interface PokeResponse {
     name: string,
     url: string
 }
 
-export interface PokemonOption {
+export interface Option {
     value: string,
     label: string,
 }
