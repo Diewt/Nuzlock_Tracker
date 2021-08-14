@@ -85,7 +85,6 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
     // for selecting other parameters like "ability" or "nature"
     const userOnChange = (option, parameters) => {
         setUserPokemonInfo(prevState => { return { ...prevState, [parameters.name]: option.value } });
-        console.log(userPokemonInfo);
     }
 
     return (
@@ -116,7 +115,7 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
                         id={`ability-select-${cardIndex}`}
                         instanceId={`ability-select-${cardIndex}`}
                         name="ability"
-                        value={userPokemonInfo?.ability}
+                        value={{ label: capitalize(userPokemonInfo?.ability), value: userPokemonInfo?.ability }}
                         onChange={userOnChange}
                         options={pokemonInfo?.abilities.map(i => ({ label: capitalize(i.ability.name), value: i.ability.name }))}
                         placeholder="Ability"
