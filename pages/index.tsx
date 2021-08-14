@@ -6,6 +6,7 @@ import pokedex from '@/lib/pokeapi';
 import { capitalize } from '@/lib/helper_functions';
 
 const pokeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+const itemSpriteUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/';
 
 import { PokeResponse, Option } from '@/lib/interfaces';
 
@@ -13,6 +14,7 @@ import { PokeResponse, Option } from '@/lib/interfaces';
 export const getStaticProps: GetStaticProps = async () => {
 	const pokemonList: PokeResponse[] = (await pokedex.getPokemonsList()).results;
 	const naturesList: PokeResponse[] = (await pokedex.getNaturesList()).results;
+	const itemList: PokeResponse[] = (await pokedex.getItemsList()).results;
 
 	const pokemonSprites = {}
 	const pokemonOptions: Option[] = pokemonList.map(pokemon => {
@@ -29,18 +31,29 @@ export const getStaticProps: GetStaticProps = async () => {
 		return { value: nature.name, label: capitalize(nature.name) } as Option
 	})
 
+	const itemSprites = {}
+	const itemOptions: Option[] = itemList.map(item => {
+		const name: string = item.name;
+		const spriteUrl: string = itemSpriteUrl + item.name + '.png';
+		itemSprites[name] = spriteUrl;
+		
+		return { value: item.name, label: capitalize(item.name)} as Option
+	})
+
 	return {
 		props: {
 			options: {
 				pokemonOptions,
 				natureOptions,
+				itemOptions
 			},
-			pokemonSprites
+			pokemonSprites,
+			itemSprites
 		}
 	}
 }
 
-export default function Home({ options, pokemonSprites }) {
+export default function Home({ options, pokemonSprites, itemSprites }) {
 
 	return (
 		<Container>
