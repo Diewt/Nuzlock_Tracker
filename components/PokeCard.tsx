@@ -84,6 +84,7 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
     // for some reason doesn't work right now (selecting an ability)
     const userOnChange = (option, parameters) => {
         setUserPokemonInfo(prevState => { return { ...prevState, [parameters.name]: option.value } });
+        console.log(userPokemonInfo);
     }
 
     return (
@@ -104,10 +105,9 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
                     className="col-span-7 row-span-1"
                 />
                 <div className='col-span-5 row-span-5'>
-                    <p>{selectedPokemon?.label}</p>
                     <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : "https://play.pokemonshowdown.com/sprites/bw/0.png"} />
                     <div className="flex flex-row">
-                        {pokemonInfo?.types.map(i => <p key={i.type.name} className="m-2">{capitalize(i.type.name)}</p>)}
+                        {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${capitalize(i.type.name)}.png`} />)}
                     </div>
                 </div>
                 {selectedPokemon ?
