@@ -59,6 +59,7 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
         </div>
     );
 
+    // for the selectin of the main pokemon
     const onChange = (option) => {
         setSelectedPokemon(option);
         pokedex.getPokemonByName(option.value).then(function (response) {
@@ -81,7 +82,7 @@ export default function PokeCard({ cardIndex, pokemonOptions, pokemonSprites }) 
         });
     }
 
-    // for some reason doesn't work right now (selecting an ability)
+    // for selecting other parameters like "ability" or "nature"
     const userOnChange = (option, parameters) => {
         setUserPokemonInfo(prevState => { return { ...prevState, [parameters.name]: option.value } });
         console.log(userPokemonInfo);
