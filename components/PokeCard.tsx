@@ -5,7 +5,7 @@ import pokedex from "@/lib/pokeapi";
 import { capitalize } from "@/lib/helper_functions";
 import { Option } from "@/lib/interfaces";
 
-export default function PokeCard({ cardIndex, options, pokemonSprites }) {
+export default function PokeCard({ cardIndex, options, sprites }) {
 
     // placeholders for later implementation of select functionality
     let [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -28,7 +28,7 @@ export default function PokeCard({ cardIndex, options, pokemonSprites }) {
     });
 
     // function for filtering options when searching pokemon
-    const loadOptions = async (search, prevOptions) => {
+    const loadPokemonOptions = async (search, prevOptions) => {
 
         let filteredOptions;
         if (!search) {
@@ -53,10 +53,35 @@ export default function PokeCard({ cardIndex, options, pokemonSprites }) {
         };
     };
 
+    const loadItemOptions = async (search, prevOptions) => {
+
+        let filteredOptions;
+        if (!search) {
+            filteredOptions = options.itemOptions;
+        } else {
+            const searchLower = search.toLowerCase();
+
+            filteredOptions = options.itemOptions.filter(({ label }) =>
+                label.toLowerCase().includes(searchLower)
+            );
+        }
+
+        const hasMore = filteredOptions.length > prevOptions.length + 10;
+        const slicedOptions = filteredOptions.slice(
+            prevOptions.length,
+            prevOptions.length + 10
+        );
+
+        return {
+            options: slicedOptions,
+            hasMore
+        };
+    };
+
     // styling for the pokemon select options
     const formatOptionLabel = ({ value, label }) => (
         <div className="flex flex-row -my-2.5">
-            <img alt={value} src={pokemonSprites[value]} className="w-16 h-16" />
+            <img alt={value} src={sprites.pokemonSprites[value]} className="w-16 h-16" />
             <p className="mt-4">{label}</p>
         </div>
     );
@@ -103,12 +128,12 @@ export default function PokeCard({ cardIndex, options, pokemonSprites }) {
                     instanceId={`pokemon-select-${cardIndex}`}
                     formatOptionLabel={formatOptionLabel}
                     value={selectedPokemon}
-                    loadOptions={loadOptions}
+                    loadOptions={loadPokemonOptions}
                     onChange={onChange}
                     className="col-span-7 row-span-1"
                 />
                 <div className='col-span-5 row-span-5'>
-                    <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : "https://play.pokemonshowdown.com/sprites/bw/0.png"}/>
+                    <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : "https://play.pokemonshowdown.com/sprites/bw/0.png"} />
                 </div>
                 <div className='col-span-7 row-span-5'>
                     <div className="col-span-7 flex flex-row items-center">
@@ -148,21 +173,16 @@ export default function PokeCard({ cardIndex, options, pokemonSprites }) {
                         Nature
                     </div>
                 }
-                {selectedPokemon ?
-                    <Select
-                        id={`item-select-${cardIndex}`}
-                        instanceId={`item-select-${cardIndex}`}
-                        name="item"
-                        value={{ label: capitalize(userPokemonInfo?.item), value: userPokemonInfo?.item }}
-                        onChange={userOnChange}
-                        options={options.itemOptions}
-                        placeholder="Item"
-                        className="col-span-4 row-span-1"
-                    /> :
-                    <div className='col-span-4 row-span-1 box-border border-2 p-1 rounded-lg'>
-                        Item
-                    </div>
-                }
+                <AsyncPaginate
+                    id={`item-select-${cardIndex}`}
+                    instanceId={`item-select-${cardIndex}`}
+                    name="item"
+                    value={{ label: capitalize(userPokemonInfo?.item), value: userPokemonInfo?.item }}
+                    onChange={userOnChange}
+                    options={loadItemOptions}
+                    placeholder="Item"
+                    className="col-span-4 row-span-1"
+                />
                 <div className='col-span-7 row-span-6 box-border border-2 p-1 rounded-lg'>
                     <div className='grid grid-cols-3 gap-1.5'>
                         <div>

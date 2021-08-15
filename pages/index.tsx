@@ -16,29 +16,28 @@ export const getStaticProps: GetStaticProps = async () => {
 	const naturesList: PokeResponse[] = (await pokedex.getNaturesList()).results;
 	const itemList: PokeResponse[] = (await pokedex.getItemsList()).results;
 
-	const pokemonSprites = {}
+	const pokemonSprites = {};
 	const pokemonOptions: Option[] = pokemonList.map(pokemon => {
 		const name: string = pokemon.name;
 		const spriteNum: string = pokemon.url.substring(pokemon.url.slice(0, -1).lastIndexOf('/') + 1).slice(0, -1);
 		const spriteUrl: string = pokeSpriteUrl + spriteNum + ".png";
 		pokemonSprites[name] = spriteUrl;
-		const pokemonOption: Option = { value: name, label: capitalize(name) }
 
-		return pokemonOption
-	})
+		return { value: name, label: capitalize(name) } as Option;
+	});
 
 	const natureOptions: Option[] = naturesList.map(nature => {
-		return { value: nature.name, label: capitalize(nature.name) } as Option
-	})
+		return { value: nature.name, label: capitalize(nature.name) } as Option;
+	});
 
-	const itemSprites = {}
+	const itemSprites = {};
 	const itemOptions: Option[] = itemList.map(item => {
 		const name: string = item.name;
 		const spriteUrl: string = itemSpriteUrl + item.name + '.png';
 		itemSprites[name] = spriteUrl;
-		
-		return { value: item.name, label: capitalize(item.name)} as Option
-	})
+
+		return { value: item.name, label: capitalize(item.name) } as Option;
+	});
 
 	return {
 		props: {
@@ -47,18 +46,20 @@ export const getStaticProps: GetStaticProps = async () => {
 				natureOptions,
 				itemOptions
 			},
-			pokemonSprites,
-			itemSprites
+			sprites: {
+				pokemonSprites,
+				itemSprites
+			}
 		}
 	}
 }
 
-export default function Home({ options, pokemonSprites, itemSprites }) {
+export default function Home({ options, sprites }) {
 
 	return (
 		<Container>
-			<PokeCard cardIndex={1} options={options} pokemonSprites={pokemonSprites} />
-			<PokeCard cardIndex={2} options={options} pokemonSprites={pokemonSprites} />
+			<PokeCard cardIndex={1} options={options} sprites={sprites} />
+			<PokeCard cardIndex={2} options={options} sprites={sprites} />
 		</Container>
 	)
 }
