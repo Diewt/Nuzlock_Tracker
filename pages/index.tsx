@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps = async () => {
 		const spriteUrl: string = itemSpriteUrl + item.name + '.png';
 		itemSprites[name] = spriteUrl;
 
-		return { value: item.name, label: capitalize(item.name) } as Option;
+		return { value: name, label: capitalize(name) } as Option;
 	});
 
 	return {

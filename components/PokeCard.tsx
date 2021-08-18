@@ -29,7 +29,6 @@ export default function PokeCard({ cardIndex, options, sprites }) {
 
     // function for filtering options when searching pokemon
     const loadPokemonOptions = async (search, prevOptions) => {
-
         let filteredOptions;
         if (!search) {
             filteredOptions = options.pokemonOptions;
@@ -54,7 +53,6 @@ export default function PokeCard({ cardIndex, options, sprites }) {
     };
 
     const loadItemOptions = async (search, prevOptions) => {
-
         let filteredOptions;
         if (!search) {
             filteredOptions = options.itemOptions;
@@ -79,12 +77,19 @@ export default function PokeCard({ cardIndex, options, sprites }) {
     };
 
     // styling for the pokemon select options
-    const formatOptionLabel = ({ value, label }) => (
+    const formatPokemonLabel = ({ value, label }) => (
         <div className="flex flex-row -my-2.5">
             <img alt={value} src={sprites.pokemonSprites[value]} className="w-16 h-16" />
             <p className="mt-4">{label}</p>
         </div>
     );
+
+    const formatItemLabel = ({ value, label }) => (
+        <div className="flex flex-row content-start transform -translate-y-2">
+            <img alt={value} src={sprites.itemSprites[value]} className="w-8 h-8 transform translate-y-3" />
+            <p className="mt-4">{label}</p>
+        </div>
+    )
 
     // for the selectin of the main pokemon
     const onChange = (option) => {
@@ -123,10 +128,11 @@ export default function PokeCard({ cardIndex, options, sprites }) {
                     <input type='text' placeholder='' className='w-36 bg-gray-300 dark:bg-gray-500 ml-1 mt-2 pl-1 transform -skew-y-6 rotate-6' />
                 </label>
                 <div className='col-span-5 row-span-1' />
+
                 <AsyncPaginate
                     id={`pokemon-select-${cardIndex}`}
                     instanceId={`pokemon-select-${cardIndex}`}
-                    formatOptionLabel={formatOptionLabel}
+                    formatOptionLabel={formatPokemonLabel}
                     value={selectedPokemon}
                     loadOptions={loadPokemonOptions}
                     onChange={onChange}
@@ -139,7 +145,7 @@ export default function PokeCard({ cardIndex, options, sprites }) {
                     <div className="col-span-7 flex flex-row items-center">
                         {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${capitalize(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
-                            Level
+                            Level: {pokemonInfo ? userPokemonInfo?.lvl : 0}
                         </div>
                     </div>
                 </div>
@@ -177,9 +183,9 @@ export default function PokeCard({ cardIndex, options, sprites }) {
                     id={`item-select-${cardIndex}`}
                     instanceId={`item-select-${cardIndex}`}
                     name="item"
-                    value={{ label: capitalize(userPokemonInfo?.item), value: userPokemonInfo?.item }}
+                    formatOptionLabel={formatItemLabel}
                     onChange={userOnChange}
-                    options={loadItemOptions}
+                    loadOptions={loadItemOptions}
                     placeholder="Item"
                     className="col-span-4 row-span-1"
                 />
