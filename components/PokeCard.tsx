@@ -3,9 +3,9 @@ import { AsyncPaginate } from "react-select-async-paginate";
 import Select from 'react-select';
 import pokedex from "@/lib/pokeapi";
 import { capitalize } from "@/lib/helper_functions";
-import { Option } from "@/lib/interfaces";
+import { Option, PokeCardProps } from "@/lib/interfaces";
 
-export default function PokeCard({ cardIndex, options, sprites }) {
+export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps) {
 
     // placeholders for later implementation of select functionality
     let [selectedPokemon, setSelectedPokemon] = useState(null);

@@ -5,5 +5,19 @@ export interface PokeResponse {
 
 export interface Option {
     value: string,
-    label: string,
+    label: string
+}
+
+export interface Sprites {
+    [name: string]: string
+}
+
+export interface HomeProps {
+    options: [Option],
+    sprites: [Sprites]
+}
+
+export interface PokeCardProps {
+    cardIndex: number,
+    [key: string]: any
 }
