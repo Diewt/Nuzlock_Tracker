@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next'
 import Container from '@/components/Container';
 import PokeCard from '@/components/PokeCard';
 import pokedex from '@/lib/pokeapi';
-import { capitalize } from '@/lib/helper_functions';
+import { formatLabel } from '@/lib/helper_functions';
 
 const pokeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 const itemSpriteUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/';
@@ -23,11 +23,11 @@ export const getStaticProps: GetStaticProps = async () => {
 		const spriteUrl: string = pokeSpriteUrl + spriteNum + ".png";
 		pokemonSprites[name] = spriteUrl;
 
-		return { value: name, label: capitalize(name) } as Option;
+		return { value: name, label: formatLabel(name) } as Option;
 	});
 
 	const natureOptions: Option[] = naturesList.map(nature => {
-		return { value: nature.name, label: capitalize(nature.name) } as Option;
+		return { value: nature.name, label: formatLabel(nature.name) } as Option;
 	});
 
 	const itemSprites: Sprites = {};
@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps = async () => {
 		const spriteUrl: string = itemSpriteUrl + item.name + '.png';
 		itemSprites[name] = spriteUrl;
 
-		return { value: name, label: capitalize(name) } as Option;
+		return { value: name, label: formatLabel(name) } as Option;
 	});
 
 	return {

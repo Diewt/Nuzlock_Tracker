@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import Select from 'react-select';
 import pokedex from "@/lib/pokeapi";
-import { capitalize } from "@/lib/helper_functions";
+import { formatLabel } from "@/lib/helper_functions";
 import { Option, PokeCardProps } from "@/lib/interfaces";
 
 export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps) {
@@ -143,7 +143,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                 </div>
                 <div className='col-span-7 row-span-5'>
                     <div className="col-span-7 flex flex-row items-center">
-                        {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${capitalize(i.type.name)}.png`} />)}
+                        {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${formatLabel(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
                             Level: {pokemonInfo ? userPokemonInfo?.lvl : 0}
                         </div>
@@ -154,9 +154,9 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         id={`ability-select-${cardIndex}`}
                         instanceId={`ability-select-${cardIndex}`}
                         name="ability"
-                        value={{ label: capitalize(userPokemonInfo?.ability), value: userPokemonInfo?.ability }}
+                        value={{ label: formatLabel(userPokemonInfo?.ability), value: userPokemonInfo?.ability }}
                         onChange={userOnChange}
-                        options={pokemonInfo?.abilities.map(i => ({ label: capitalize(i.ability.name), value: i.ability.name }))}
+                        options={pokemonInfo?.abilities.map(i => ({ label: formatLabel(i.ability.name), value: i.ability.name }))}
                         placeholder="Ability"
                         className="col-span-4 row-span-1"
                     /> :
@@ -169,7 +169,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         id={`nature-select-${cardIndex}`}
                         instanceId={`nature-select-${cardIndex}`}
                         name="nature"
-                        value={{ label: capitalize(userPokemonInfo?.nature), value: userPokemonInfo?.nature }}
+                        value={{ label: formatLabel(userPokemonInfo?.nature), value: userPokemonInfo?.nature }}
                         onChange={userOnChange}
                         options={options.natureOptions}
                         placeholder="Nature"
