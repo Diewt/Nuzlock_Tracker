@@ -76,6 +76,30 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         };
     };
 
+    const loadMoveOptions = async (search, prevOptions) => {
+        let filteredOptions;
+        if (!search) {
+            filteredOptions = pokemonInfo.moves;
+        } else {
+            const searchLower = search.toLowerCase();
+
+            filteredOptions = pokemonInfo.moves.filter(({ label }) =>
+                label.toLowerCase().includes(searchLower)
+            );
+        }
+
+        const hasMore = filteredOptions.length > prevOptions.length + 10;
+        const slicedOptions = filteredOptions.slice(
+            prevOptions.length,
+            prevOptions.length + 10
+        );
+
+        return {
+            options: slicedOptions,
+            hasMore
+        };
+    };
+
     // styling for the pokemon select options
     const formatPokemonLabel = ({ value, label }) => (
         <div className="flex flex-row -my-2.5">
@@ -89,13 +113,14 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
             <img alt={value} src={sprites.itemSprites[value]} className="w-8 h-8 transform translate-y-3" />
             <p className="mt-4">{label}</p>
         </div>
-    )
+    );
 
     // for the selectin of the main pokemon
     const onChange = (option) => {
         setSelectedPokemon(option);
         pokedex.getPokemonByName(option.value).then(function (response) {
-            setPokemonInfo(response);
+            const movesOptions = response.moves.map(({ move }) => { return { label: formatLabel(move.name), value: move.name } as Option });
+            setPokemonInfo({ ...response, moves: movesOptions });
         });
         setUserPokemonInfo({
             "nickname": "",
@@ -120,6 +145,12 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         setUserPokemonInfo(prevState => { return { ...prevState, [parameters.name]: option.value } });
     }
 
+    const moveOnChange = (option: Option, parameters) => {
+        const moveIndex = parseInt(parameters.name.split("-")[1]);
+        let newMoves = userPokemonInfo.moves;
+        newMoves[moveIndex] = option.value;
+        setUserPokemonInfo(prevState => { return { ...prevState, moves: [...newMoves] } });
+    }
     return (
         <div className='p-4'>
             <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-xl dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
@@ -224,18 +255,20 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     </div>
                 </div>
                 <div className='col-span-5 row-span-6 flex flex-col justify-evenly'>
-                    <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
-                        Move 1
-                    </div>
-                    <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
-                        Move 2
-                    </div>
-                    <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
-                        Move 3
-                    </div>
-                    <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
-                        Move 4
-                    </div>
+                    {
+                        [...Array(4)].map((e, i) =>
+                            <AsyncPaginate
+                                id={`move-select-${cardIndex}-${i}`}
+                                key={`move-select-${cardIndex}-${i}`}
+                                instanceId={`move-select-${cardIndex}-${i}`}
+                                name={`move-${i}`}
+                                onChange={moveOnChange}
+                                loadOptions={loadMoveOptions}
+                                placeholder={`Move ${i + 1}`}
+                                className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
+                            />
+                        )
+                    }
                 </div>
             </div>
         </div>
