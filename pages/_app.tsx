@@ -1,4 +1,5 @@
 import '@/styles/global.css';
+import "@fontsource/doppio-one";
 
 import { ThemeProvider } from 'next-themes';
 import { AppProps } from 'next/app'
