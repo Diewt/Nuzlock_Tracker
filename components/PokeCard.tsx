@@ -255,7 +255,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     </div>
                 </div>
                 <div className='col-span-5 row-span-6 flex flex-col justify-evenly'>
-                    {
+                    {pokemonInfo ?
                         [...Array(4)].map((e, i) =>
                             <AsyncPaginate
                                 id={`move-select-${cardIndex}-${i}`}
@@ -267,6 +267,10 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                                 placeholder={`Move ${i + 1}`}
                                 className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
                             />
+                        ) : [...Array(4)].map((e, i) =>
+                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
+                                Move {i + 1}
+                            </div>
                         )
                     }
                 </div>
