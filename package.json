@@ -15,11 +15,8 @@
     "prettier": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.2.4",
     "react-select": "^4.3.1",
-    "react-select-async-paginate": "^0.5.3",
-    "react-thunk": "^1.0.0",
-    "redux": "^4.1.1"
+    "react-select-async-paginate": "^0.5.3"
   },
   "devDependencies": {
     "@types/node": "^16.4.13",
