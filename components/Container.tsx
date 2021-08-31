@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 
 import Footer from '@/components/Footer';
 
@@ -37,9 +38,17 @@ export default function Container(props) {
                     <meta property="article:published_time" content={meta.date} />
                 )}
             </Head>
-            <nav className='flex flex-row w-full items-center justify-between bg-blue-400 dark:bg-red-400 border-b-2 h-24 px-4 shadow-sm'>
+            <nav className='flex flex-row w-full items-center justify-between dark:bg-black h-20 px-4 shadow-lg'>
 
-                <p className="text-4xl font-bold">Nuzlog</p>
+                <p className="text-4xl">Nuzlog</p>
+
+                <Link href="/"><a className="text-lg">Home</a></Link>
+
+                <Link href="/"><a className="text-lg">About</a></Link>
+
+                <Link href="/"><a className="text-lg">Profile</a></Link>
+
+                <Link href="/"><a className="text-lg">Community</a></Link>
 
                 <div>
                     <button
