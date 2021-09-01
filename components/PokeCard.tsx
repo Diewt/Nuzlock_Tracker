@@ -157,6 +157,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     //Also to add bool flag to represent what stats should be displayed
     //Tie that element to a button somewhere on the card.
     //Before doing that we also need to figure out a way to get input for iv and evs for proper stat calculation
+    //Gotta figure out how to add the iv and ev inputs into the card
     function statCalculation(index) {
         return pokemonInfo.stats[index].base_stat
 
