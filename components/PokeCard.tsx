@@ -229,47 +229,53 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                 <div className='col-span-7 row-span-6 box-border border-2 p-1 rounded-lg'>
                     <div className='grid grid-cols-2 gap-y-2'>
 
-                        <label>Hp</label>
-                        <input
+                        <p>HP</p>
+                        <p
                             className="w-9 place-self-end text-right"
-                            value={pokemonInfo ? pokemonInfo?.stats[0].base_stat : 0}
-                            name="hp"
-                        />
+                            id="hp"
+                        >
+                            {pokemonInfo ? pokemonInfo?.stats[0].base_stat : 0}
+                        </p>
 
-                        <label>Atk</label>
-                        <input
+                        <p>ATK</p>
+                        <p
                             className="w-9 place-self-end text-right"
-                            value={pokemonInfo ? pokemonInfo?.stats[1].base_stat : 0}
-                            name="atk"
-                        />
+                            id="atk"
+                        >
+                            {pokemonInfo ? pokemonInfo?.stats[1].base_stat : 0}
+                        </p>
 
-                        <label>Def</label>
-                        <input
+                        <p>DEF</p>
+                        <p
                             className="w-9 place-self-end text-right"
-                            value={pokemonInfo ? pokemonInfo?.stats[2].base_stat : 0}
-                            name="def"
-                        />
+                            id="def"
+                        >
+                            {pokemonInfo ? pokemonInfo?.stats[2].base_stat : 0}
+                        </p>
 
-                        <label>Spa</label>
-                        <input
+                        <p>SPA</p>
+                        <p
                             className="w-9 place-self-end text-right"
-                            value={pokemonInfo ? pokemonInfo?.stats[3].base_stat : 0}
-                            name="spa"
-                        />
+                            id="spa"
+                        >
+                            {pokemonInfo ? pokemonInfo?.stats[3].base_stat : 0}
+                        </p>
 
-                        <label>Spd</label>
-                        <input
+                        <p>SPD</p>
+                        <p
                             className="w-9 place-self-end text-right"
-                            value={pokemonInfo ? pokemonInfo?.stats[4].base_stat : 0}
-                            name="spd"
-                        />
+                            id="spd"
+                        >
+                            {pokemonInfo ? pokemonInfo?.stats[4].base_stat : 0}
+                        </p>
 
-                        <label>Spe</label>
-                        <input
+                        <p>SPE</p>
+                        <p
                             className="w-9 place-self-end text-right"
-                            value={pokemonInfo ? pokemonInfo?.stats[5].base_stat : 0}
-                            name="spe"
-                        />
+                            id="spe"
+                        >
+                            {pokemonInfo ? pokemonInfo?.stats[5].base_stat : 0}
+                        </p>
 
                     </div>
                 </div>
@@ -287,7 +293,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                                 className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
                             />
                         ) : [...Array(4)].map((e, i) =>
-                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
+                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={e}>
                                 Move {i + 1}
                             </div>
                         )
