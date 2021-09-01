@@ -389,7 +389,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                                 className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
                             />
                         ) : [...Array(4)].map((e, i) =>
-                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'>
+                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={e}>
                                 Move {i + 1}
                             </div>
                         )
