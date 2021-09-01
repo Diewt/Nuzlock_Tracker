@@ -118,7 +118,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     // for the selectin of the main pokemon
     const onChange = (option) => {
         setSelectedPokemon(option);
-        pokedex.getPokemonByName(option.value).then(function (response) {
+        pokedex.getPokemonByName(option.value).then((response) => {
             const movesOptions = response.moves.map(({ move }) => { return { label: formatLabel(move.name), value: move.name } as Option });
             setPokemonInfo({ ...response, moves: movesOptions });
         });
@@ -158,7 +158,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     //Tie that element to a button somewhere on the card.
     //Before doing that we also need to figure out a way to get input for iv and evs for proper stat calculation
     //Gotta figure out how to add the iv and ev inputs into the card
-    function statCalculation(index) {
+    const statCalculation = (index) => {
         return pokemonInfo.stats[index].base_stat
 
         //store calculation into appropriate slot in userPokemon info
@@ -171,31 +171,31 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
     //Incredibly rough implementation of how to check the nature bonuses since we are storing natures by name
     //Review later for improvements
-    function natureBonus(index) {
+    const natureBonus = (index) => {
         //neutral natures meaning no stat impact
         if (userPokemonInfo.nature == 'hardy' ||
             userPokemonInfo.nature == 'docile' ||
             userPokemonInfo.nature == 'serious' ||
             userPokemonInfo.nature == 'bashful' ||
             userPokemonInfo.nature == 'quirky'
-        ){
+        ) {
             return 1;
         }
 
         //natures affecting attack
-        if (index == 1){
+        if (index == 1) {
             if (userPokemonInfo.nature == 'lonely' ||
                 userPokemonInfo.nature == 'brave' ||
                 userPokemonInfo.nature == 'adamant' ||
                 userPokemonInfo.nature == 'naughty'
-            ){
+            ) {
                 return 1.1;
             }
             else if (userPokemonInfo.nature == 'bold' ||
-                    userPokemonInfo.nature == 'timid' ||
-                    userPokemonInfo.nature == 'modest' ||
-                    userPokemonInfo.nature == 'calm'
-            ){
+                userPokemonInfo.nature == 'timid' ||
+                userPokemonInfo.nature == 'modest' ||
+                userPokemonInfo.nature == 'calm'
+            ) {
                 return 0.9
             }
         }
@@ -390,7 +390,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                                 className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
                             />
                         ) : [...Array(4)].map((e, i) =>
-                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={e}>
+                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={`move-${i}`}>
                                 Move {i + 1}
                             </div>
                         )
