@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import Select from 'react-select';
 import pokedex from "@/lib/pokeapi";
@@ -26,6 +26,31 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         },
         lvl: 0,
     });
+
+    let [moveSelects, setMoveSelects] = useState([]);
+
+    useEffect(() => {
+        if (pokemonInfo) {
+            setMoveSelects([...Array(4)].map((e, i) =>
+                <AsyncPaginate
+                    id={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                    key={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                    instanceId={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                    name={`move-${i}`}
+                    onChange={moveOnChange}
+                    loadOptions={loadMoveOptions}
+                    placeholder={`Move ${i + 1}`}
+                    className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
+                />
+            ));
+        } else {
+            setMoveSelects([...Array(4)].map((e, i) =>
+                <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={`move-${i}`}>
+                    Move {i + 1}
+                </div>
+            ));
+        }
+    }, [pokemonInfo]);
 
     // function for filtering options when searching pokemon
     const loadPokemonOptions = async (search, prevOptions) => {
@@ -377,23 +402,8 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     </div>
                 </div>
                 <div className='col-span-5 row-span-6 flex flex-col justify-evenly'>
-                    {pokemonInfo ?
-                        [...Array(4)].map((e, i) =>
-                            <AsyncPaginate
-                                id={`move-select-${cardIndex}-${i}`}
-                                key={`move-select-${cardIndex}-${i}`}
-                                instanceId={`move-select-${cardIndex}-${i}`}
-                                name={`move-${i}`}
-                                onChange={moveOnChange}
-                                loadOptions={loadMoveOptions}
-                                placeholder={`Move ${i + 1}`}
-                                className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
-                            />
-                        ) : [...Array(4)].map((e, i) =>
-                            <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={`move-${i}`}>
-                                Move {i + 1}
-                            </div>
-                        )
+                    {
+                        moveSelects.map((moveSelect, index) => <div key={index}>{moveSelect}</div>)
                     }
                 </div>
             </div>
