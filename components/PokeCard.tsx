@@ -4,6 +4,7 @@ import Select from 'react-select';
 import pokedex from "@/lib/pokeapi";
 import { formatLabel } from "@/lib/helper_functions";
 import { Option, PokeCardProps } from "@/lib/interfaces";
+import { listenerCount } from "process";
 
 export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps) {
 
@@ -25,6 +26,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
             spe: 0
         },
         lvl: 0,
+        base: true
     });
 
     let [moveSelects, setMoveSelects] = useState([]);
@@ -129,7 +131,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     const formatPokemonLabel = ({ value, label }) => (
         <div className="flex flex-row -my-2.5">
             <img alt={value} src={sprites.pokemonSprites[value]} className="w-16 h-16" />
-            <p className="mt-4">{label}</p>
+            <p className="mt-4 transform translate-y-1">{label}</p>
         </div>
     );
 
@@ -161,7 +163,8 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                 spd: 0,
                 spe: 0
             },
-            lvl: 0
+            lvl: 0,
+            base: true
         });
     }
 
@@ -184,7 +187,13 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     //Before doing that we also need to figure out a way to get input for iv and evs for proper stat calculation
     //Gotta figure out how to add the iv and ev inputs into the card
     const statCalculation = (index) => {
-        return pokemonInfo.stats[index].base_stat
+
+        if (userPokemonInfo.base) {
+            return pokemonInfo.stats[index].base_stat
+        }
+        else {
+            return 25
+        }
 
         //store calculation into appropriate slot in userPokemon info
         //stat calculation for hp for gen 3 onward
@@ -300,7 +309,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
     return (
         <div className='p-4'>
-            <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-xl dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
+            <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-2xl dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
                 <label className='box-border border-2 border-solid rounded-bl-lg rounded-tr-lg shadow-lg dark:border-yellow-500 absolute -top-7 w-40 h-16 bg-white dark:bg-gray-700 transform skew-y-6 -rotate-6'>
                     <p className='ml-1 transform -skew-y-6 rotate-6'>Nickname:</p>
                     <input type='text' placeholder='' className='w-36 bg-gray-300 dark:bg-gray-500 ml-1 mt-2 pl-1 transform -skew-y-6 rotate-6' />
@@ -323,7 +332,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <div className="col-span-7 flex flex-row items-center">
                         {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${formatLabel(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
-                            Level: {pokemonInfo ? userPokemonInfo?.lvl : 0}
+                            Level: 0
                         </div>
                     </div>
                 </div>
@@ -396,8 +405,19 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(4) : 0} </div>
 
                         <label className='col-span-1'>Spe</label>
-                        <div className='col-span-5'>bar placeholder</div>
+                        <div className='col-span-5 bg-red-900 rounded-xl'>bar placeholder</div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(5) : 0} </div>
+
+                        <div className='col-span-1'> </div>
+                        <div className='col-span-5 place-self-center box-border border-2 rounded-md w-32 text-center border-black'>
+                            <button 
+                                type='button' 
+                                onClick={() => setUserPokemonInfo(prevState => { return { ...prevState, base: !prevState.base } })}
+                            > 
+                                {userPokemonInfo.base ? 'Calculated Stats' : 'Base Stats'} 
+                            </button>
+                        </div>
+                        <div className='col-span-1'> </div>
 
                     </div>
                 </div>

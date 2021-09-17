@@ -32,7 +32,7 @@ export default function MinPokeCard({ cardIndex, options, sprites }: PokeCardPro
                 contentLabel={"Pokemon Card"}
                 overlayClassName="fixed inset-0 bg-opacity-75 m-auto bg-white"
                 className="bg-gradient-to-r from-white to-gray-100 mx-auto my-36 
-                rounded overflow-visible shadow-2xl h-auto max-w-xl"
+                rounded overflow-visible shadow-2xl h-auto max-w-2xl"
             >
                 <PokeCard cardIndex={cardIndex} options={options} sprites={sprites} />
             </Modal>
