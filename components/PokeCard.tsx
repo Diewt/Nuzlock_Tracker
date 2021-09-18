@@ -25,7 +25,23 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
             spd: 0,
             spe: 0
         },
-        lvl: 0,
+        "EVs": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        "IVs": [
+            31,
+            31,
+            31,
+            31,
+            31,
+            31
+        ],
+        lvl: 100,
         base: true
     });
 
@@ -163,7 +179,23 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                 spd: 0,
                 spe: 0
             },
-            lvl: 0,
+            "EVs": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "IVs": [
+                31,
+                31,
+                31,
+                31,
+                31,
+                31
+            ],
+            lvl: 100,
             base: true
         });
     }
@@ -191,16 +223,30 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         if (userPokemonInfo.base) {
             return pokemonInfo.stats[index].base_stat
         }
-        else {
-            return 25
+
+
+        //stat calculation for hp for gen 3 onward
+        //Math.floor((2 * pokemonInfo.stats[index].base_stat + iv + Math.floor(ev/4) * userPokemonInfo.lvl)/100) + userPokemonInfo.lvl + 10
+        if(index == 0){
+            let calc1 = (2 * pokemonInfo.stats[index].base_stat + userPokemonInfo.IVs[index] + Math.floor(userPokemonInfo.EVs[index] / 4)) * userPokemonInfo.lvl
+            let calc2 = Math.floor(calc1 / 100)
+            let calc3 = calc2 + userPokemonInfo.lvl + 10
+            
+
+
+            return calc3
+        }
+        //stat calcualtion for other stats for gen 3 onward
+        //Math.floor((Math.floor((2 * pokemonInfo.stats[index].base_stat + iv + Math.floor(ev/4) * userPokemonInfo.lvl)/100) + 5) * natureBonus(index))
+        else{
+            let calc1 = (2 * pokemonInfo.stats[index].base_stat + userPokemonInfo.IVs[index] + Math.floor((userPokemonInfo.EVs[index]/4))) * userPokemonInfo.lvl
+            let calc2 = Math.floor(calc1 / 100) + 5
+            let calc3 = Math.floor(calc2 * natureBonus(index))
+
+            return calc3
         }
 
         //store calculation into appropriate slot in userPokemon info
-        //stat calculation for hp for gen 3 onward
-        //Math.floor((2 * pokemonInfo.stats[index].base_stat + iv + Math.floor(ev/4) * userPokemonInfo.lvl)/100) + userPokemonInfo.lvl + 10
-
-        //stat calcualtion for other stats for gen 3 onward
-        //Math.floor((Math.floor((2 * pokemonInfo.stats[index].base_stat + iv + Math.floor(ev/4) * userPokemonInfo.lvl)/100) + 5) * natureBonus(index))
     }
 
     //Incredibly rough implementation of how to check the nature bonuses since we are storing natures by name
@@ -305,6 +351,8 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                 return 0.9
             }
         }
+
+        return 1;
     }
 
     return (
@@ -332,7 +380,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <div className="col-span-7 flex flex-row items-center">
                         {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${formatLabel(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
-                            Level: 0
+                            Level: {userPokemonInfo.lvl}
                         </div>
                     </div>
                 </div>
