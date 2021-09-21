@@ -4,7 +4,6 @@ import Select from 'react-select';
 import pokedex from "@/lib/pokeapi";
 import { formatLabel } from "@/lib/helper_functions";
 import { Option, PokeCardProps } from "@/lib/interfaces";
-import { listenerCount } from "process";
 
 export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps) {
 
@@ -69,6 +68,10 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
             ));
         }
     }, [pokemonInfo]);
+
+    const lvlChange = (event) => {
+        setUserPokemonInfo(prevState => { return { ...prevState, ["lvl"]: event.target.value } });
+    }
 
     // function for filtering options when searching pokemon
     const loadPokemonOptions = async (search, prevOptions) => {
@@ -227,19 +230,19 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
         //stat calculation for hp for gen 3 onward
         //Math.floor((2 * pokemonInfo.stats[index].base_stat + iv + Math.floor(ev/4) * userPokemonInfo.lvl)/100) + userPokemonInfo.lvl + 10
-        if(index == 0){
+        if (index == 0) {
             let calc1 = (2 * pokemonInfo.stats[index].base_stat + userPokemonInfo.IVs[index] + Math.floor(userPokemonInfo.EVs[index] / 4)) * userPokemonInfo.lvl
             let calc2 = Math.floor(calc1 / 100)
             let calc3 = calc2 + userPokemonInfo.lvl + 10
-            
+
 
 
             return calc3
         }
         //stat calcualtion for other stats for gen 3 onward
         //Math.floor((Math.floor((2 * pokemonInfo.stats[index].base_stat + iv + Math.floor(ev/4) * userPokemonInfo.lvl)/100) + 5) * natureBonus(index))
-        else{
-            let calc1 = (2 * pokemonInfo.stats[index].base_stat + userPokemonInfo.IVs[index] + Math.floor((userPokemonInfo.EVs[index]/4))) * userPokemonInfo.lvl
+        else {
+            let calc1 = (2 * pokemonInfo.stats[index].base_stat + userPokemonInfo.IVs[index] + Math.floor((userPokemonInfo.EVs[index] / 4))) * userPokemonInfo.lvl
             let calc2 = Math.floor(calc1 / 100) + 5
             let calc3 = Math.floor(calc2 * natureBonus(index))
 
@@ -380,7 +383,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <div className="col-span-7 flex flex-row items-center">
                         {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${formatLabel(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
-                            Level: {userPokemonInfo.lvl}
+                            Level: <input className="w-8 p-0.5" value={userPokemonInfo.lvl} name="lvl" onChange={lvlChange} />
                         </div>
                     </div>
                 </div>
@@ -458,11 +461,11 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
                         <div className='col-span-1'> </div>
                         <div className='col-span-5 place-self-center box-border border-2 rounded-md w-32 text-center border-black'>
-                            <button 
-                                type='button' 
+                            <button
+                                type='button'
                                 onClick={() => setUserPokemonInfo(prevState => { return { ...prevState, base: !prevState.base } })}
-                            > 
-                                {userPokemonInfo.base ? 'Calculated Stats' : 'Base Stats'} 
+                            >
+                                {userPokemonInfo.base ? 'Calculated Stats' : 'Base Stats'}
                             </button>
                         </div>
                         <div className='col-span-1'> </div>
