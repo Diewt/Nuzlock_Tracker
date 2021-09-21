@@ -70,7 +70,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     }, [pokemonInfo]);
 
     const lvlChange = (event) => {
-        setUserPokemonInfo(prevState => { return { ...prevState, ["lvl"]: event.target.value } });
+        setUserPokemonInfo(prevState => { return { ...prevState, ["lvl"]: parseInt(event.target.value) } });
     }
 
     // function for filtering options when searching pokemon
@@ -460,12 +460,12 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(5) : 0} </div>
 
                         <div className='col-span-1'> </div>
-                        <div className='col-span-5 place-self-center box-border border-2 rounded-md w-32 text-center border-black'>
+                        <div className='col-span-5 place-self-center box-border border-2 rounded-md w-64 text-center border-black'>
                             <button
                                 type='button'
                                 onClick={() => setUserPokemonInfo(prevState => { return { ...prevState, base: !prevState.base } })}
                             >
-                                {userPokemonInfo.base ? 'Calculated Stats' : 'Base Stats'}
+                                {userPokemonInfo.base ? 'Change to view Calculated Stats' : 'Change to view Base Stats'}
                             </button>
                         </div>
                         <div className='col-span-1'> </div>
