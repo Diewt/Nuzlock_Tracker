@@ -50,6 +50,17 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     const { pokemonParty, setPokemonParty } = useContext(PokemonPartyContext);
 
     useEffect(() => {
+        if (pokemonParty[cardIndex].hasOwnProperty('pokemonInfo')) {
+            setPokemonInfo(pokemonParty[cardIndex].pokemonInfo);
+            setSelectedPokemon(pokemonParty[cardIndex].selectedPokemon);
+        }
+
+        if (pokemonParty[cardIndex].hasOwnProperty('userPokemonInfo'))
+            setUserPokemonInfo(pokemonParty[cardIndex].userPokemonInfo);
+
+    }, []);
+
+    useEffect(() => {
         if (pokemonInfo) {
             setMoveSelects([...Array(4)].map((e, i) =>
                 <AsyncPaginate
@@ -63,6 +74,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
                 />
             ));
+
         } else {
             setMoveSelects([...Array(4)].map((e, i) =>
                 <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={`move-${i}`}>
@@ -76,11 +88,14 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         if (selectedPokemon && pokemonInfo) {
             setPokemonParty([
                 ...pokemonParty.slice(0, cardIndex),
-                { userPokemon: userPokemonInfo, selectedPokemon: selectedPokemon.value, pokemonInfo: pokemonInfo },
+                {
+                    userPokemonInfo: userPokemonInfo,
+                    selectedPokemon: selectedPokemon,
+                    pokemonInfo: pokemonInfo
+                },
                 ...pokemonParty.slice(cardIndex + 1)
             ]);
         }
-
     }, [pokemonInfo, userPokemonInfo]);
 
     const lvlChange = (event) => {
@@ -436,6 +451,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         id={`item-select-${cardIndex}`}
                         instanceId={`item-select-${cardIndex}`}
                         name="item"
+                        value={{ label: formatLabel(userPokemonInfo?.item), value: userPokemonInfo?.item }}
                         formatOptionLabel={formatItemLabel}
                         onChange={userOnChange}
                         loadOptions={loadItemOptions}
