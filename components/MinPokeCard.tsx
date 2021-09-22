@@ -1,11 +1,10 @@
 import Modal from 'react-modal';
 import PokeCard from '@/components/PokeCard';
 import { useState } from 'react';
-import { PokeCardProps } from '@/lib/interfaces';
 
 Modal.setAppElement('body')
 
-export default function MinPokeCard({ cardIndex, options, sprites }: PokeCardProps) {
+export default function MinPokeCard({ cardIndex, options, sprites, backgroundSprite }) {
 
     const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -19,12 +18,17 @@ export default function MinPokeCard({ cardIndex, options, sprites }: PokeCardPro
         setIsOpen(false);
     }
 
+    if (!backgroundSprite)
+        backgroundSprite = "https://play.pokemonshowdown.com/sprites/bw/0.png";
+
     return (
         <div>
-            <button
-                className="w-24 h-24 rounded-full bg-gray-400"
-                style={{ "backgroundImage": "url(https://play.pokemonshowdown.com/sprites/bw/0.png)" }}
-                onClick={openModal} />
+            <input
+                className="w-24 h-24 rounded-full border-8 border-gray-400"
+                onClick={openModal}
+                type="image"
+                src={backgroundSprite}
+            />
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}

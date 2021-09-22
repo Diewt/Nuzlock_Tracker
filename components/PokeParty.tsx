@@ -1,16 +1,36 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MinPokeCard from "@/components/MinPokeCard";
+import { PokemonPartyContext } from "@/context/PokemonPartyContext";
 
 export default function PokeParty({ options, sprites }) {
 
     let [pokemonPartySprites, setPokemonPartySprites] = useState([]);
 
-    // initial mount of component
+    const { pokemonParty } = useContext(PokemonPartyContext);
+
+    // when pokemonParty is updated
     useEffect(() => {
-        setPokemonPartySprites([...Array(6)].map((e, i) =>
-            <MinPokeCard key={i} cardIndex={i} options={options} sprites={sprites} />
+        setPokemonPartySprites([...Array(6)].map((e, i) => {
+
+            let backgroundSprite: string;
+
+            // if a pokemon has not been edited yet in the party
+            if (Object.keys(pokemonParty[i]).length === 0)
+                backgroundSprite = null;
+            else if (Object.keys(pokemonParty[i]).length !== 0)
+                backgroundSprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonParty[i].pokemonInfo.id}.png`;
+
+            return (
+                <MinPokeCard
+                    key={i}
+                    cardIndex={i}
+                    options={options}
+                    sprites={sprites}
+                    backgroundSprite={backgroundSprite} />
+            );
+        }
         ));
-    }, []);
+    }, [pokemonParty]);
 
 
     return (

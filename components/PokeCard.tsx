@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import Select from 'react-select';
 import pokedex from "@/lib/pokeapi";
 import { formatLabel } from "@/lib/helper_functions";
 import { Option, PokeCardProps } from "@/lib/interfaces";
+import { PokemonPartyContext } from "@/context/PokemonPartyContext";
 
 export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps) {
 
@@ -46,6 +47,8 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
     let [moveSelects, setMoveSelects] = useState([]);
 
+    const { pokemonParty, setPokemonParty } = useContext(PokemonPartyContext);
+
     useEffect(() => {
         if (pokemonInfo) {
             setMoveSelects([...Array(4)].map((e, i) =>
@@ -68,6 +71,17 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
             ));
         }
     }, [pokemonInfo]);
+
+    useEffect(() => {
+        if (selectedPokemon && pokemonInfo) {
+            setPokemonParty([
+                ...pokemonParty.slice(0, cardIndex),
+                { userPokemon: userPokemonInfo, selectedPokemon: selectedPokemon.value, pokemonInfo: pokemonInfo },
+                ...pokemonParty.slice(cardIndex + 1)
+            ]);
+        }
+
+    }, [pokemonInfo, userPokemonInfo]);
 
     const lvlChange = (event) => {
         setUserPokemonInfo(prevState => { return { ...prevState, ["lvl"]: parseInt(event.target.value) } });

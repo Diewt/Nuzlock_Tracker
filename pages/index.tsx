@@ -4,11 +4,13 @@ import Container from '@/components/Container';
 import PokeParty from '@/components/PokeParty';
 import pokedex from '@/lib/pokeapi';
 import { formatLabel } from '@/lib/helper_functions';
+import { PokemonPartyContext } from '@/context/PokemonPartyContext';
 
 const pokeSpriteUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
 const itemSpriteUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/';
 
 import { PokeResponse, Option, Sprites, HomeProps } from '@/lib/interfaces';
+import { useMemo, useState } from 'react';
 
 // on build time, fetch whole list of pokemon and format options for the select
 export const getStaticProps: GetStaticProps = async () => {
@@ -56,11 +58,17 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function Home({ options, sprites }: HomeProps) {
 
+	const [pokemonParty, setPokemonParty] = useState([{}, {}, {}, {}, {}, {}]);
+
+	const pokemonPartyProvider = useMemo(() => ({ pokemonParty, setPokemonParty }), [pokemonParty, setPokemonParty])
+
 	return (
 		<Container>
 			<div className="min-h-full h-96 max-h-full p-4">
 				<h1 className="text-2xl">Party Tracker</h1>
-				<PokeParty options={options} sprites={sprites} />
+				<PokemonPartyContext.Provider value={pokemonPartyProvider}>
+					<PokeParty options={options} sprites={sprites} />
+				</PokemonPartyContext.Provider>
 			</div>
 		</Container>
 	)
