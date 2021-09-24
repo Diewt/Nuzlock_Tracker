@@ -11,6 +11,9 @@
       "@/lib/*": [
         "lib/*"
       ],
+      "@/pages/*": [
+        "pages/*"
+      ],
       "@/context/*": [
         "context/*"
       ],
