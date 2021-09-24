@@ -11,6 +11,15 @@
       "@/lib/*": [
         "lib/*"
       ],
+      "@/pages/*": [
+        "pages/*"
+      ],
+      "@/context/*": [
+        "context/*"
+      ],
+      "@/styles/*": [
+        "styles/*"
+      ]
     },
     "target": "es5",
     "lib": [

@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-import NextLink from 'next/link';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import Footer from '@/components/Footer';
 
@@ -38,7 +39,35 @@ export default function Container(props) {
                     <meta property="article:published_time" content={meta.date} />
                 )}
             </Head>
-            <nav className="w-full flex flex-row">
+            <nav className='flex flex-row w-full items-center justify-between dark:bg-black h-20 px-4 shadow-lg'>
+
+                <div className="flex flex-row p-2">
+                    <p className="text-4xl mr-2">Nuzlog</p>
+                    {mounted && resolvedTheme === 'dark' ?
+                        <Image src="/pokeball-inverted.svg" height={35} width={35} /> :
+                        <Image src="/pokeball.svg" height={35} width={35} />}
+                </div>
+
+                <Link href="/"><a className="text-lg">Home</a></Link>
+
+                <Link href="/"><a className="text-lg">About</a></Link>
+
+                <Link href="/"><a className="text-lg">Profile</a></Link>
+
+                <Link href="/"><a className="text-lg">Community</a></Link>
+
+                <div>
+                    <button
+                        aria-label="Toggle Dark Mode"
+                        type="button"
+                        className="w-20 h-12 p-3 bg-gray-200 rounded dark:bg-gray-800"
+                        onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+                    >
+                        {mounted && resolvedTheme === 'dark' ?
+                            <Image src="/pokeball-inverted.svg" height={25} width={25} /> :
+                            <Image src="/pokeball.svg" height={25} width={25} />}
+                    </button>
+                </div>
 
             </nav>
             <main>
