@@ -5,8 +5,9 @@ import { PokemonPartyContext } from "@/context/PokemonPartyContext";
 export default function PokeParty({ options, sprites }) {
 
     let [pokemonPartySprites, setPokemonPartySprites] = useState([]);
+    let [partyNickname, setPartyNickname] = useState("");
 
-    const { pokemonParty, setPokemonParty } = useContext(PokemonPartyContext);
+    const { pokemonParty } = useContext(PokemonPartyContext);
 
     // when pokemonParty is updated
     useEffect(() => {
@@ -33,7 +34,7 @@ export default function PokeParty({ options, sprites }) {
     }, [pokemonParty]);
 
     const changeNickname = (event) => {
-        setPokemonParty(prevState => { return { ...prevState, nickname: parseInt(event.target.value) } });
+        setPartyNickname(event.target.value);
     }
 
     return (
