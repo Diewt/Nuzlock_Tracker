@@ -419,7 +419,8 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         type='text'
                         placeholder=''
                         className='w-36 bg-gray-300 dark:bg-gray-500 ml-1 mt-2 pl-1 transform -skew-y-6 rotate-6'
-                        onChange={changeNickname} />
+                        onChange={changeNickname}
+                        value={pokemonParty[cardIndex]?.userPokemonInfo?.nickname} />
                 </label>
                 <div className='col-span-5 row-span-1' />
 
