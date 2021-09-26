@@ -5,6 +5,7 @@ import { PokemonPartyContext } from "@/context/PokemonPartyContext";
 export default function PokeParty({ options, sprites }) {
 
     let [pokemonPartySprites, setPokemonPartySprites] = useState([]);
+    let [partyNickname, setPartyNickname] = useState("");
 
     const { pokemonParty } = useContext(PokemonPartyContext);
 
@@ -32,11 +33,18 @@ export default function PokeParty({ options, sprites }) {
         ));
     }, [pokemonParty]);
 
+    const changeNickname = (event) => {
+        setPartyNickname(event.target.value);
+    }
 
     return (
         <div className="p-4">
-            <input className="w-56 px-4 py-1 text-gray-900 rounded-full
-                focus:outline-none focus:ring focus:border-blue-300" placeholder="Nickname Party" />
+            <input
+                className="w-56 px-4 py-1 text-gray-900 rounded-full
+                    focus:outline-none focus:ring focus:border-blue-300"
+                placeholder="Nickname Party"
+                onChange={changeNickname}
+            />
             <div className="flex flex-row space-x-2 p-2">
                 {pokemonPartySprites.map(pokemonSprite => pokemonSprite)}
             </div>

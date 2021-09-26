@@ -62,19 +62,38 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
     useEffect(() => {
         if (pokemonInfo) {
-            setMoveSelects([...Array(4)].map((e, i) =>
-                <AsyncPaginate
-                    id={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
-                    key={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
-                    instanceId={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
-                    name={`move-${i}`}
-                    onChange={moveOnChange}
-                    loadOptions={loadMoveOptions}
-                    placeholder={`Move ${i + 1}`}
-                    className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
-                />
-            ));
-
+            if (pokemonParty[cardIndex].hasOwnProperty('userPokemonInfo') &&
+                pokemonParty[cardIndex].userPokemonInfo.moves.length !== 0) {
+                setMoveSelects([...Array(4)].map((e, i) =>
+                    <AsyncPaginate
+                        id={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        key={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        instanceId={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        name={`move-${i}`}
+                        onChange={moveOnChange}
+                        loadOptions={loadMoveOptions}
+                        placeholder={`Move ${i + 1}`}
+                        className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
+                        defaultValue={{
+                            label: formatLabel(pokemonParty[cardIndex].userPokemonInfo.moves[i]),
+                            value: pokemonParty[cardIndex].userPokemonInfo.moves[i]
+                        }}
+                    />
+                ));
+            } else {
+                setMoveSelects([...Array(4)].map((e, i) =>
+                    <AsyncPaginate
+                        id={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        key={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        instanceId={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        name={`move-${i}`}
+                        onChange={moveOnChange}
+                        loadOptions={loadMoveOptions}
+                        placeholder={`Move ${i + 1}`}
+                        className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
+                    />
+                ));
+            }
         } else {
             setMoveSelects([...Array(4)].map((e, i) =>
                 <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={`move-${i}`}>
@@ -98,8 +117,12 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         }
     }, [pokemonInfo, userPokemonInfo]);
 
-    const lvlChange = (event) => {
+    const changeLvl = (event) => {
         setUserPokemonInfo(prevState => { return { ...prevState, ["lvl"]: parseInt(event.target.value) } });
+    }
+
+    const changeNickname = (event) => {
+        setUserPokemonInfo(prevState => { return { ...prevState, ["nickname"]: event.target.value } });
     }
 
     // function for filtering options when searching pokemon
@@ -392,7 +415,11 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
             <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-2xl dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
                 <label className='box-border border-2 border-solid rounded-bl-lg rounded-tr-lg shadow-lg dark:border-yellow-500 absolute -top-7 w-40 h-16 bg-white dark:bg-gray-700 transform skew-y-6 -rotate-6'>
                     <p className='ml-1 transform -skew-y-6 rotate-6'>Nickname:</p>
-                    <input type='text' placeholder='' className='w-36 bg-gray-300 dark:bg-gray-500 ml-1 mt-2 pl-1 transform -skew-y-6 rotate-6' />
+                    <input
+                        type='text'
+                        placeholder=''
+                        className='w-36 bg-gray-300 dark:bg-gray-500 ml-1 mt-2 pl-1 transform -skew-y-6 rotate-6'
+                        onChange={changeNickname} />
                 </label>
                 <div className='col-span-5 row-span-1' />
 
@@ -412,7 +439,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <div className="col-span-7 flex flex-row items-center">
                         {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${formatLabel(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
-                            Level: <input className="w-8 p-0.5" value={userPokemonInfo.lvl} name="lvl" onChange={lvlChange} />
+                            Level: <input className="w-8 p-0.5" value={userPokemonInfo.lvl} name="lvl" onChange={changeLvl} />
                         </div>
                     </div>
                 </div>
