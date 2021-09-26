@@ -44,7 +44,7 @@ export default function PokeParty({ options, sprites }) {
         if (partyNickname === "")
             setPartyNickname(Math.random().toString(16).substr(2, length));
 
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('pokeparty')
             .insert([
                 {
@@ -53,7 +53,8 @@ export default function PokeParty({ options, sprites }) {
                 }
             ]);
 
-        console.log(data, error);
+        if (error)
+            alert(error);
     }
 
     return (
