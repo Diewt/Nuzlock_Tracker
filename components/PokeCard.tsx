@@ -62,19 +62,38 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
     useEffect(() => {
         if (pokemonInfo) {
-            setMoveSelects([...Array(4)].map((e, i) =>
-                <AsyncPaginate
-                    id={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
-                    key={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
-                    instanceId={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
-                    name={`move-${i}`}
-                    onChange={moveOnChange}
-                    loadOptions={loadMoveOptions}
-                    placeholder={`Move ${i + 1}`}
-                    className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
-                />
-            ));
-
+            if (pokemonParty[cardIndex].hasOwnProperty('userPokemonInfo') &&
+                pokemonParty[cardIndex].userPokemonInfo.moves.length !== 0) {
+                setMoveSelects([...Array(4)].map((e, i) =>
+                    <AsyncPaginate
+                        id={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        key={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        instanceId={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        name={`move-${i}`}
+                        onChange={moveOnChange}
+                        loadOptions={loadMoveOptions}
+                        placeholder={`Move ${i + 1}`}
+                        className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
+                        defaultValue={{
+                            label: formatLabel(pokemonParty[cardIndex].userPokemonInfo.moves[i]),
+                            value: pokemonParty[cardIndex].userPokemonInfo.moves[i]
+                        }}
+                    />
+                ));
+            } else {
+                setMoveSelects([...Array(4)].map((e, i) =>
+                    <AsyncPaginate
+                        id={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        key={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        instanceId={`move-select-${selectedPokemon.value}-${cardIndex}-${i}`}
+                        name={`move-${i}`}
+                        onChange={moveOnChange}
+                        loadOptions={loadMoveOptions}
+                        placeholder={`Move ${i + 1}`}
+                        className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg'
+                    />
+                ));
+            }
         } else {
             setMoveSelects([...Array(4)].map((e, i) =>
                 <div className='col-span-5 row-span-1 box-border border-2 p-1 rounded-lg' key={`move-${i}`}>
