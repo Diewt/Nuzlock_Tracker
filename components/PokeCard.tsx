@@ -410,6 +410,53 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         return 1;
     }
 
+    const statBarPercentage = (index) => {
+        if(!pokemonInfo){
+            return '0%'
+        }
+
+        let percentage
+        let percentageString
+
+        if(userPokemonInfo.base){
+            percentage = (pokemonInfo.stats[index].base_stat / 255) * 100
+            percentageString = percentage.toString() + '%'
+            return percentageString
+        }
+        else {
+            if(index == 0){
+                percentage = (statCalculation(index) / 714) * 100
+                percentageString = percentage.toString() + '%'
+                return percentageString
+            }
+            else if(index == 2 || index == 4){
+                percentage = (statCalculation(index) / 614) * 100
+                percentageString = percentage.toString() + '%'
+                return percentageString
+            }
+            else{
+                percentage = (statCalculation(index) / 504) * 100
+                percentageString = percentage.toString() + '%'
+                return percentageString
+            }
+        }
+    }
+
+    const statBarcolor = (value) => {
+        let container = value.slice(0, -1)
+        let number = parseInt(container)
+
+        if (number < 34){
+            return 'red'
+        }
+        else if(number < 67){
+            return 'yellow'
+        }
+        else {
+            return 'green'
+        }
+    }
+
     return (
         <div className='p-4'>
             <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-2xl dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
@@ -494,27 +541,27 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <div className='grid grid-cols-7 row-span-6 gap-y-2'>
 
                         <label className='col-span-1'>Hp</label>
-                        <div className='col-span-5'> bar placeholder </div>
+                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(0), 'background': statBarcolor(statBarPercentage(0)) }}></div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(0) : 0} </div>
 
                         <label className='col-span-1'>Atk</label>
-                        <div className='col-span-5'>bar placeholder</div>
+                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(1), 'background': statBarcolor(statBarPercentage(1)) }}></div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(1) : 0} </div>
 
                         <label className='col-span-1'>Def</label>
-                        <div className='col-span-5'>bar placeholder</div>
+                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(2), 'background': statBarcolor(statBarPercentage(2)) }}></div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(2) : 0} </div>
 
                         <label className='col-span-1'>Spa</label>
-                        <div className='col-span-5'>bar placeholder</div>
+                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(3), 'background': statBarcolor(statBarPercentage(3)) }}></div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(3) : 0} </div>
 
                         <label className='col-span-1'>Spd</label>
-                        <div className='col-span-5'>bar placeholder</div>
+                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(4), 'background': statBarcolor(statBarPercentage(4)) }}></div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(4) : 0} </div>
 
                         <label className='col-span-1'>Spe</label>
-                        <div className='col-span-5 bg-red-900 rounded-xl'>bar placeholder</div>
+                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(5), 'background': statBarcolor(statBarPercentage(5))}}></div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(5) : 0} </div>
 
                         <div className='col-span-1'> </div>
