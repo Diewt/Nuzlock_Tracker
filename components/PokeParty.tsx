@@ -6,7 +6,7 @@ export default function PokeParty({ options, sprites }) {
 
     let [pokemonPartySprites, setPokemonPartySprites] = useState([]);
 
-    const { pokemonParty } = useContext(PokemonPartyContext);
+    const { pokemonParty, setPokemonParty } = useContext(PokemonPartyContext);
 
     // when pokemonParty is updated
     useEffect(() => {
@@ -32,11 +32,18 @@ export default function PokeParty({ options, sprites }) {
         ));
     }, [pokemonParty]);
 
+    const changeNickname = (event) => {
+        setPokemonParty(prevState => { return { ...prevState, nickname: parseInt(event.target.value) } });
+    }
 
     return (
         <div className="p-4">
-            <input className="w-56 px-4 py-1 text-gray-900 rounded-full
-                focus:outline-none focus:ring focus:border-blue-300" placeholder="Nickname Party" />
+            <input
+                className="w-56 px-4 py-1 text-gray-900 rounded-full
+                    focus:outline-none focus:ring focus:border-blue-300"
+                placeholder="Nickname Party"
+                onChange={changeNickname}
+            />
             <div className="flex flex-row space-x-2 p-2">
                 {pokemonPartySprites.map(pokemonSprite => pokemonSprite)}
             </div>
