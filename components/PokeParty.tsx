@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import MinPokeCard from "@/components/MinPokeCard";
 import { PokemonPartyContext } from "@/context/PokemonPartyContext";
+import { supabase } from "@/lib/supabase";
 
 export default function PokeParty({ options, sprites }) {
 
@@ -37,6 +38,24 @@ export default function PokeParty({ options, sprites }) {
         setPartyNickname(event.target.value);
     }
 
+    const saveToDatabase = async (event) => {
+        event.preventDefault();
+
+        if (partyNickname === "")
+            setPartyNickname(Math.random().toString(16).substr(2, length));
+
+        const { data, error } = await supabase
+            .from('pokeparty')
+            .insert([
+                {
+                    party_nickname: partyNickname,
+                    pokeparty: pokemonParty
+                }
+            ]);
+
+        console.log(data, error);
+    }
+
     return (
         <div className="p-4">
             <input
@@ -48,6 +67,10 @@ export default function PokeParty({ options, sprites }) {
             <div className="flex flex-row space-x-2 p-2">
                 {pokemonPartySprites.map(pokemonSprite => pokemonSprite)}
             </div>
+            <button
+                className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded float-right"
+                onClick={saveToDatabase}
+            >Share / Save</button>
         </div>
     );
 }

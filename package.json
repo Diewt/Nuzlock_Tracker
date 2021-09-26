@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fontsource/doppio-one": "^4.5.0",
+    "@supabase/supabase-js": "^1.23.0",
     "framer-motion": "^4.1.17",
     "next": "^11.1.0",
     "pokedex-promise-v2": "^3.3.2",
