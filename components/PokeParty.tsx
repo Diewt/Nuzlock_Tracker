@@ -2,13 +2,30 @@ import { useContext, useEffect, useState } from "react";
 import MinPokeCard from "@/components/MinPokeCard";
 import { PokemonPartyContext } from "@/context/PokemonPartyContext";
 import { supabase } from "@/lib/supabase";
+import Modal from 'react-modal';
+
+Modal.setAppElement('body')
 
 export default function PokeParty({ options, sprites }) {
 
     let [pokemonPartySprites, setPokemonPartySprites] = useState([]);
     let [partyNickname, setPartyNickname] = useState("");
 
+    const [modalIsOpen, setIsOpen] = useState(false);
+
     const { pokemonParty } = useContext(PokemonPartyContext);
+
+    let [partyLink, setPartyLink] = useState("");
+
+    // functions for closing and opening the modal
+    const openModal = () => {
+        setIsOpen(true);
+    }
+
+    const closeModal = (event) => {
+        event.stopPropagation();
+        setIsOpen(false);
+    }
 
     // when pokemonParty is updated
     useEffect(() => {
@@ -44,7 +61,7 @@ export default function PokeParty({ options, sprites }) {
         if (partyNickname === "")
             setPartyNickname(Math.random().toString(16).substr(2, length));
 
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('pokeparty')
             .insert([
                 {
@@ -53,8 +70,12 @@ export default function PokeParty({ options, sprites }) {
                 }
             ]);
 
+        setPartyLink(data[0].uuid);
+
         if (error)
             alert(error);
+        else
+            openModal();
     }
 
     return (
@@ -68,6 +89,17 @@ export default function PokeParty({ options, sprites }) {
             <div className="flex flex-row space-x-2 p-2">
                 {pokemonPartySprites.map(pokemonSprite => pokemonSprite)}
             </div>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                shouldCloseOnOverlayClick={true}
+                contentLabel={"Save/Share Modal"}
+                overlayClassName="fixed inset-0 bg-opacity-75 m-auto bg-white"
+                className="bg-gradient-to-r from-white to-gray-100 mx-auto my-36 
+                rounded overflow-visible shadow-2xl h-auto max-w-2xl"
+            >
+                Your nuzlog party link is: {partyLink}
+            </Modal>
             <button
                 className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded float-right"
                 onClick={saveToDatabase}
