@@ -411,30 +411,30 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
     }
 
     const statBarPercentage = (index) => {
-        if(!pokemonInfo){
+        if (!pokemonInfo) {
             return '0%'
         }
 
         let percentage
         let percentageString
 
-        if(userPokemonInfo.base){
+        if (userPokemonInfo.base) {
             percentage = (pokemonInfo.stats[index].base_stat / 255) * 100
             percentageString = percentage.toString() + '%'
             return percentageString
         }
         else {
-            if(index == 0){
+            if (index == 0) {
                 percentage = (statCalculation(index) / 714) * 100
                 percentageString = percentage.toString() + '%'
                 return percentageString
             }
-            else if(index == 2 || index == 4){
+            else if (index == 2 || index == 4) {
                 percentage = (statCalculation(index) / 614) * 100
                 percentageString = percentage.toString() + '%'
                 return percentageString
             }
-            else{
+            else {
                 percentage = (statCalculation(index) / 504) * 100
                 percentageString = percentage.toString() + '%'
                 return percentageString
@@ -446,10 +446,10 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
         let container = value.slice(0, -1)
         let number = parseInt(container)
 
-        if (number < 34){
+        if (number < 34) {
             return 'red'
         }
-        else if(number < 67){
+        else if (number < 67) {
             return 'yellow'
         }
         else {
@@ -467,7 +467,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         placeholder=''
                         className='w-36 bg-gray-300 dark:bg-gray-500 ml-1 mt-2 pl-1 transform -skew-y-6 rotate-6'
                         onChange={changeNickname}
-                        value={pokemonParty[cardIndex]?.userPokemonInfo?.nickname} />
+                        value={pokemonParty[cardIndex]?.userPokemonInfo?.nickname || ''} />
                 </label>
                 <div className='col-span-5 row-span-1' />
 
@@ -561,7 +561,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(4) : 0} </div>
 
                         <label className='col-span-1'>Spe</label>
-                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(5), 'background': statBarcolor(statBarPercentage(5))}}></div>
+                        <div className='col-span-5 bg-red-900 rounded-xl h-4 mt-1' style={{ 'width': statBarPercentage(5), 'background': statBarcolor(statBarPercentage(5)) }}></div>
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(5) : 0} </div>
 
                         <div className='col-span-1'> </div>
