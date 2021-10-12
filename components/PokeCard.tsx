@@ -5,6 +5,7 @@ import pokedex from "@/lib/pokeapi";
 import { formatLabel } from "@/lib/helper_functions";
 import { Option, PokeCardProps } from "@/lib/interfaces";
 import { PokemonPartyContext } from "@/context/PokemonPartyContext";
+import { motion } from "framer-motion";
 
 export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps) {
 
@@ -465,6 +466,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <input
                         type='text'
                         placeholder=''
+                        maxLength= {10}
                         className='w-36 bg-gray-300 dark:bg-gray-500 ml-1 mt-2 pl-1 transform -skew-y-6 rotate-6'
                         onChange={changeNickname}
                         value={pokemonParty[cardIndex]?.userPokemonInfo?.nickname || ''} />
@@ -487,7 +489,8 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <div className="col-span-7 flex flex-row items-center">
                         {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${formatLabel(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
-                            Level: <input className="w-8 p-0.5" value={userPokemonInfo.lvl} name="lvl" onChange={changeLvl} />
+                            Level: 
+                            <input className="w-18 p-0.5" value={userPokemonInfo.lvl} name="lvl" onChange={changeLvl} type='number' min='0' max='100' />
                         </div>
                     </div>
                 </div>
