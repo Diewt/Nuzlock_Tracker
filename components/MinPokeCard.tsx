@@ -1,8 +1,10 @@
-import Modal from 'react-modal';
+//import Modal from 'react-modal';
 import PokeCard from '@/components/PokeCard';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Modal from '@/components/Modal'
 
-Modal.setAppElement('body')
+//Modal.setAppElement('body')
 
 export default function MinPokeCard({ cardIndex, options, sprites, backgroundSprite }) {
 
@@ -13,8 +15,7 @@ export default function MinPokeCard({ cardIndex, options, sprites, backgroundSpr
         setIsOpen(true);
     }
 
-    const closeModal = (event) => {
-        event.stopPropagation();
+    const closeModal = () => {
         setIsOpen(false);
     }
 
@@ -23,23 +24,24 @@ export default function MinPokeCard({ cardIndex, options, sprites, backgroundSpr
 
     return (
         <div>
-            <input
+            <motion.input
                 className="w-24 h-24 rounded-full border-8 border-gray-400"
-                onClick={openModal}
+                whileHover={{ scale:1.1 }}
+                whileTap= {{ scale:0.9 }}
+                onClick={() => (modalIsOpen ? closeModal() : openModal())}
                 type="image"
                 src={backgroundSprite}
             />
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                shouldCloseOnOverlayClick={true}
-                contentLabel={"Pokemon Card"}
-                overlayClassName="fixed inset-0 bg-opacity-75 m-auto bg-white"
-                className="bg-gradient-to-r from-white to-gray-100 mx-auto my-36 
-                rounded overflow-visible shadow-2xl h-auto max-w-2xl"
+            
+            <AnimatePresence
+                initial={false}
+                exitBeforeEnter={true}
+                onExitComplete={() => null}
             >
-                <PokeCard cardIndex={cardIndex} options={options} sprites={sprites} />
-            </Modal>
+                {modalIsOpen && <Modal {...modalIsOpen} handleClose={closeModal}>
+                    <PokeCard cardIndex={cardIndex} options={options} sprites={sprites} />
+                </Modal>}
+            </AnimatePresence>
         </div>
     );
 }
