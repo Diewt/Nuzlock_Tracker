@@ -1,7 +1,7 @@
 //import Modal from 'react-modal';
 import PokeCard from '@/components/PokeCard';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Modal from '@/components/Modal'
 
 //Modal.setAppElement('body')
@@ -32,11 +32,16 @@ export default function MinPokeCard({ cardIndex, options, sprites, backgroundSpr
                 type="image"
                 src={backgroundSprite}
             />
-
-            {modalIsOpen && <Modal modalIsOpen={modalIsOpen} handleClose={close}> 
-                <PokeCard cardIndex={cardIndex} options={options} sprites={sprites} />
-            </Modal> }
-
+            
+            <AnimatePresence
+                initial={false}
+                exitBeforeEnter={true}
+                onExitComplete={() => null}
+            >
+                {modalIsOpen && <Modal {...modalIsOpen} handleClose={closeModal}>
+                    <PokeCard cardIndex={cardIndex} options={options} sprites={sprites} />
+                </Modal>}
+            </AnimatePresence>
         </div>
     );
 }
