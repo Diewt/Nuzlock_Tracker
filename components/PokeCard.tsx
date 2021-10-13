@@ -201,16 +201,16 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
     // styling for the pokemon select options
     const formatPokemonLabel = ({ value, label }) => (
-        <div className="flex flex-row -my-2.5">
+        <div className="flex flex-row -my-2.5 ">
             <img alt={value} src={sprites.pokemonSprites[value]} className="w-16 h-16" />
-            <p className="mt-4 transform translate-y-1">{label}</p>
+            <p className="mt-4 transform translate-y-1 dark:text-black ">{label}</p>
         </div>
     );
 
     const formatItemLabel = ({ value, label }) => (
         <div className="flex flex-row content-start transform -translate-y-2">
             <img alt={value} src={sprites.itemSprites[value]} className="w-8 h-8 transform translate-y-3" />
-            <p className="mt-4">{label}</p>
+            <p className="mt-4 dark:text-black">{label}</p>
         </div>
     );
 
@@ -460,7 +460,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
 
     return (
         <div className='p-4'>
-            <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-2xl dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
+            <div className='box-border border-2 border-solid shadow-lg grid grid-cols-12 gap-1.5 row-auto max-w-2xl bg-white dark:bg-gray-600 dark:border-yellow-500 mt-8 p-2 relative rounded'>
                 <label className='box-border border-2 border-solid rounded-bl-lg rounded-tr-lg shadow-lg dark:border-yellow-500 absolute -top-7 w-40 h-16 bg-white dark:bg-gray-700 transform skew-y-6 -rotate-6'>
                     <p className='ml-1 transform -skew-y-6 rotate-6'>Nickname:</p>
                     <input
@@ -480,7 +480,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     value={selectedPokemon}
                     loadOptions={loadPokemonOptions}
                     onChange={onChange}
-                    className="col-span-7 row-span-1"
+                    className="col-span-7 row-span-1 "
                 />
                 <div className='col-span-5 row-span-5'>
                     <img src={selectedPokemon ? `http://play.pokemonshowdown.com/sprites/xyani/${selectedPokemon.value}.gif` : "https://play.pokemonshowdown.com/sprites/bw/0.png"} />
@@ -489,7 +489,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                     <div className="col-span-7 flex flex-row items-center">
                         {pokemonInfo?.types.map(i => <img key={i.type.name} className="m-2" src={`https://play.pokemonshowdown.com/sprites/types/${formatLabel(i.type.name)}.png`} />)}
                         <div className='box-border border-2 col-span-5 rounded-lg p-1'>
-                            Level: 
+                            {'Level:    '}   
                             <input className="w-18 p-0.5" value={userPokemonInfo.lvl} name="lvl" onChange={changeLvl} type='number' min='0' max='100' />
                         </div>
                     </div>
@@ -503,7 +503,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         onChange={userOnChange}
                         options={pokemonInfo?.abilities.map(i => ({ label: formatLabel(i.ability.name), value: i.ability.name }))}
                         placeholder="Ability"
-                        className="col-span-4 row-span-1"
+                        className="col-span-4 row-span-1 dark:text-black"
                     /> :
                     <div className='col-span-4 row-span-1 box-border border-2 p-1 rounded-lg'>
                         Ability
@@ -518,7 +518,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         onChange={userOnChange}
                         options={options.natureOptions}
                         placeholder="Nature"
-                        className="col-span-4 row-span-1"
+                        className="col-span-4 row-span-1 dark:text-black"
                     /> :
                     <div className='col-span-4 row-span-1 box-border border-2 p-1 rounded-lg'>
                         Nature
@@ -568,7 +568,7 @@ export default function PokeCard({ cardIndex, options, sprites }: PokeCardProps)
                         <div className='col-span-1 place-self-end'> {pokemonInfo ? statCalculation(5) : 0} </div>
 
                         <div className='col-span-1'> </div>
-                        <div className='col-span-5 place-self-center box-border border-2 rounded-md w-64 text-center border-black'>
+                        <div className='col-span-5 place-self-center box-border border-2 rounded-md w-64 text-center border-black dark:border-white'>
                             <button
                                 type='button'
                                 onClick={() => setUserPokemonInfo(prevState => { return { ...prevState, base: !prevState.base } })}
